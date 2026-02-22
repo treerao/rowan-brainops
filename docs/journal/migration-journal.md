@@ -248,3 +248,17 @@ Purpose: preserve decisions, rationale, and conversation-driven context for this
 - Rationale: Establish a stable checkpoint before further feature expansion and role-splitting.
 - Tradeoffs: Some hardening enhancements remain backlog items rather than migration blockers.
 - Follow-ups: continue iterative hardening from this baseline (digest pinning, cloudflared credential-file mode, backup rehearsal evidence).
+
+### 2026-02-22
+- Context: Browser capability needs quick recovery path without full browser-worker container complexity.
+- Decision: Adopt host Chrome dedicated-profile path as immediate operating model; add launcher script and runbook.
+- Rationale: Enables fast interactive login/MFA bootstrap while keeping Rowan browser state isolated from personal profile.
+- Tradeoffs: Slightly weaker isolation than dedicated browser-worker container role.
+- Follow-ups: Revisit dedicated browser-worker role later if stronger isolation/concurrency becomes necessary.
+
+### 2026-02-22
+- Context: Slack-side Rowan reported inability to manage cron because `openclaw` command was missing in-container.
+- Decision: Add container startup wrapper (`openclaw -> node /app/openclaw.mjs`) and perform selective feature-parity merge from legacy config.
+- Rationale: Preserve Slack-first cron ergonomics and recover useful non-secret runtime behaviors without reintroducing plaintext credential sprawl.
+- Tradeoffs: Parity intentionally excludes legacy embedded secrets (`botToken`, `appToken`, API keys, gateway token) and old host-local workspace path.
+- Follow-ups: validate each recovered capability in practice (cron creation from Slack, browser tasks, memory search behavior) and only re-add secret-backed features through env/secret workflow.
