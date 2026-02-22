@@ -1,0 +1,15 @@
+{
+  "name": "rowan-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Allowlisted static server for Rowan workspace content",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0"
+  }
+}

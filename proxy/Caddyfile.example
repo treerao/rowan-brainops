@@ -1,0 +1,6 @@
+# Replace with your domain
+openclaw.example.com {
+  encode gzip
+
+  reverse_proxy openclaw:3000
+}
