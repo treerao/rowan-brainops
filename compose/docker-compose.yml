@@ -3,8 +3,6 @@ services:
     image: ${OPENCLAW_IMAGE}
     container_name: rowan-openclaw
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       TZ: ${TZ}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
@@ -12,19 +10,22 @@ services:
       OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
-      OPENCLAW_WORKSPACE: /workspace
+      OPENCLAW_WORKSPACE: /home/node/.openclaw/workspace
     command:
-      - sh
-      - -lc
-      - openclaw gateway --port ${OPENCLAW_GATEWAY_PORT}
+      - node
+      - openclaw.mjs
+      - gateway
+      - --allow-unconfigured
+      - --port
+      - ${OPENCLAW_GATEWAY_PORT}
     volumes:
-      - ${WORKSPACE_DIR}:/workspace
-      - ${OPENCLAW_CONFIG_DIR}:/root/.openclaw
+      - ${WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_STATE_DIR}:/var/lib/openclaw
     expose:
       - "${OPENCLAW_GATEWAY_PORT}"
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost:${OPENCLAW_GATEWAY_PORT}/health"]
+      test: ["CMD", "curl", "-fsS", "http://localhost:${OPENCLAW_GATEWAY_PORT}/"]
       interval: 30s
       timeout: 5s
       retries: 5
@@ -34,8 +35,6 @@ services:
       context: ../services/rowan-web
     container_name: rowan-web
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       WORKSPACE_ROOT: /workspace
       ROWAN_WEB_ALLOWLIST: ${ROWAN_WEB_ALLOWLIST}
@@ -55,8 +54,6 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: rowan-cloudflared
     restart: unless-stopped
-    env_file:
-      - .env
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     depends_on:
       - openclaw
