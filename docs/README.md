@@ -17,6 +17,7 @@
 - [`runbooks/current-deployment-guide-2026-02-22.md`](./runbooks/current-deployment-guide-2026-02-22.md)
 - [`runbooks/single-instance-deploy.md`](./runbooks/single-instance-deploy.md)
 - [`runbooks/slack-setup-guide.md`](./runbooks/slack-setup-guide.md)
+- [`runbooks/browser-host-profile-setup.md`](./runbooks/browser-host-profile-setup.md)
 - [`runbooks/legacy-inventory.md`](./runbooks/legacy-inventory.md)
 - [`runbooks/bootstrap-checklist.md`](./runbooks/bootstrap-checklist.md)
 - [`runbooks/migration-runbook.md`](./runbooks/migration-runbook.md)
