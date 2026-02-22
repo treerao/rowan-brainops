@@ -227,3 +227,24 @@ Purpose: preserve decisions, rationale, and conversation-driven context for this
 - Rationale: Better compatibility with expected OpenClaw runtime layout.
 - Tradeoffs: Rowan web still mounts workspace at `/workspace` (intentional service-local path).
 - Follow-ups: none immediate.
+
+### 2026-02-22
+- Context: Concern raised that Slack-first dev cycle causes context ballooning and weak iterative control.
+- Decision: Add evidence-backed research note from OpenClaw docs, Anthropic context-management guidance, and Microsoft Research multi-turn findings.
+- Rationale: Validate observed behavior with primary/strong sources before deciding workflow policy.
+- Tradeoffs: Confirms need for workflow split (Slack for ops, host/agent surfaces for deep dev loops).
+- Follow-ups: bake context hygiene practices into daily operator checklist.
+
+### 2026-02-22
+- Context: Need an explicit system-level model that captures both metaphorical orientation and plain operational boundaries.
+- Decision: Add `docs/cognitive-architecture.md` as the canonical "how Rowan is embodied" document across repos, containers, and interaction surfaces.
+- Rationale: Reduce ambiguity about where memory, runtime, interfaces, and operations live; support cleaner future handoffs and refactors.
+- Tradeoffs: Adds one more top-level architecture artifact to maintain as the stack evolves.
+- Follow-ups: keep this doc synchronized with compose/runtime changes and role-splitting decisions.
+
+### 2026-02-22
+- Context: Migration reached working steady state: containerized Rowan is active with Slack and Cloudflare paths operating.
+- Decision: Declare migration complete and freeze current implementation/docs as baseline state.
+- Rationale: Establish a stable checkpoint before further feature expansion and role-splitting.
+- Tradeoffs: Some hardening enhancements remain backlog items rather than migration blockers.
+- Follow-ups: continue iterative hardening from this baseline (digest pinning, cloudflared credential-file mode, backup rehearsal evidence).

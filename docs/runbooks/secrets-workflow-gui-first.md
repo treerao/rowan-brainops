@@ -12,7 +12,7 @@ Manage OpenClaw secrets without entering secret values in terminal commands or s
 
 ## Setup pattern
 1. Create a vault for this stack (example: `openclaw-prod`).
-2. Create one secret per env key in `/Users/rrao/rowan-brainops/docs/runbooks/env-contract-from-export-2026-02-22.md`.
+2. Create one secret per env key in [`env-contract-from-export-2026-02-22.md`](./env-contract-from-export-2026-02-22.md).
 3. Keep names identical to env keys to reduce mapping errors.
 4. Copy values from vault UI into local `compose/.env`.
 5. Use Docker Desktop UI to restart services after updates.

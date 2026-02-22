@@ -12,7 +12,7 @@ Replace legacy-exposed credentials with new values before or during cutover, the
 
 ## Pre-rotation preparation
 - [ ] Create a secure temporary working note outside git for rotation tracking.
-- [ ] Enumerate all secret key names from `/Users/rrao/rowan-brainops/docs/runbooks/env-contract-from-export-2026-02-22.md`.
+- [ ] Enumerate all secret key names from [`env-contract-from-export-2026-02-22.md`](./env-contract-from-export-2026-02-22.md).
 - [ ] Confirm destination secret injection mechanism (`compose/.env` local only, encrypted vault, or secret files).
 - [ ] Define cutover window and rollback owner.
 
