@@ -7,21 +7,29 @@ services:
       TZ: ${TZ}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      BRAVE_API_KEY: ${BRAVE_API_KEY}
       OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
       OPENCLAW_WORKSPACE: /home/node/.openclaw/workspace
     command:
-      - node
-      - openclaw.mjs
-      - gateway
-      - --allow-unconfigured
-      - --port
-      - ${OPENCLAW_GATEWAY_PORT}
+      - sh
+      - -lc
+      - |
+        mkdir -p /home/node/.local/bin
+        cat > /home/node/.local/bin/openclaw <<'EOF'
+        #!/usr/bin/env sh
+        exec node /app/openclaw.mjs "$@"
+        EOF
+        chmod +x /home/node/.local/bin/openclaw
+        export PATH="/home/node/.local/bin:${PATH}"
+        exec node openclaw.mjs gateway --allow-unconfigured --bind lan --port "${OPENCLAW_GATEWAY_PORT}"
     volumes:
       - ${WORKSPACE_DIR}:/home/node/.openclaw/workspace
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_STATE_DIR}:/var/lib/openclaw
+    ports:
+      - "127.0.0.1:${OPENCLAW_GATEWAY_PORT}:${OPENCLAW_GATEWAY_PORT}"
     expose:
       - "${OPENCLAW_GATEWAY_PORT}"
     healthcheck:

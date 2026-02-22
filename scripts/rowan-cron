@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Convenience wrapper: manage containerized OpenClaw cron jobs without host cron.
+# Usage examples:
+#   ./scripts/rowan-cron status --json
+#   ./scripts/rowan-cron list --all --json
+#   ./scripts/rowan-cron add --name "Daily scan" --cron "0 9 * * *" --tz "America/Los_Angeles" --message "Run daily scan."
+
+if [[ $# -lt 1 ]]; then
+  echo "usage: $0 <cron-subcommand> [args...]" >&2
+  exit 1
+fi
+
+SUBCMD="$1"
+shift
+
+docker exec rowan-openclaw sh -lc 'node openclaw.mjs cron "$@"' _ "$SUBCMD" "$@"
