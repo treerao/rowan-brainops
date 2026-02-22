@@ -17,6 +17,8 @@ Rowan is best treated as a **distributed mind with specialized organs**:
   - Durable knowledge, notes, project artifacts, and evolving context live here.
 - `rowan-openclaw` is the **cognitive engine**.
   - It reasons, plans, uses tools/channels, and produces responses/actions.
+- `rowan-runtime` is the **short-term physiological state**.
+  - Live session/config/credential state that keeps the body functioning, but is not authored knowledge.
 - `Slack` is the **voice and inbox nervous system**.
   - High-availability command/control and lightweight interactions.
 - `rowan-web` is the **reading face**.
@@ -27,7 +29,7 @@ Rowan is best treated as a **distributed mind with specialized organs**:
   - Deployment logic, runbooks, change history, and operational discipline.
 
 ### Metaphor in one line
-`Brain (workspace) + Cognition (openclaw) + Speech (Slack) + Presence (web) + Immune gate (Cloudflare) + Executive control (brainops)`
+`Long-term memory (workspace) + Cognition (openclaw) + Body state (rowan-runtime) + Speech (Slack) + Presence (web) + Immune gate (Cloudflare) + Executive control (brainops)`
 
 ## 2) Plain operational model
 
@@ -110,9 +112,18 @@ flowchart LR
 - Infrastructure code, deployment scripts, operational docs, architecture decisions
 - Migration journals and policy-style notes
 
-## What must stay out of both repos
+## What belongs in `rowan-runtime`
+- Runtime-only mutable state: OpenClaw config mounts, credentials, cache/session internals
+- Operational continuity data that should survive restarts but is not source-authored knowledge
+
+## What must stay out of both git repos
 - Live secrets, provider keys, tunnel tokens, app tokens
 - Use `.env` (gitignored), local secret manager workflows, and runtime mounts
+
+## Non-overlap rule (`rowan-runtime` vs `rowan-brainops`)
+- `rowan-runtime` stores live state used by running services.
+- `rowan-brainops` stores instructions and code that define how services should run.
+- If it is mutable runtime residue, it belongs in `rowan-runtime`, not `rowan-brainops`.
 
 ## 4) Effective operating model
 
