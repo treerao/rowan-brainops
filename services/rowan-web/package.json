@@ -12,6 +12,7 @@
     "highlight.js": "^11.10.0",
     "helmet": "^8.0.0",
     "marked": "^15.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "serve-index": "^1.9.1"
   }
 }

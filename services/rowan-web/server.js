@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const serveIndex = require('serve-index');
 const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
@@ -81,6 +82,7 @@ app.get('*.md', (req, res, next) => {
 
 if (fullWorkspaceMode) {
   app.use('/', express.static(workspaceRoot, { fallthrough: true, index: ['index.html'] }));
+  app.use('/', serveIndex(workspaceRoot, { icons: true }));
 } else {
   for (const segment of allowlist) {
     const dir = path.join(workspaceRoot, segment);
@@ -88,6 +90,7 @@ if (fullWorkspaceMode) {
       continue;
     }
     app.use(`/${segment}`, express.static(dir, { fallthrough: true, index: ['index.html'] }));
+    app.use(`/${segment}`, serveIndex(dir, { icons: true }));
   }
 }
 
