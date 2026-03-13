@@ -4,3 +4,9 @@
 compose/.env
 
 tmp/
+
+# OpenClaw SSH keys (local-only)
+runtime/ssh/
+
+# OpenClaw SSH backup archive (local-only)
+runtime/rowan.ssh.tgz

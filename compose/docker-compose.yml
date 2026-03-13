@@ -11,6 +11,7 @@ services:
       OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
+      VT_API_KEY: ${VT_API_KEY}
       OPENCLAW_WORKSPACE: /home/node/.openclaw/workspace
     command:
       - sh
@@ -28,6 +29,7 @@ services:
       - ${WORKSPACE_DIR}:/home/node/.openclaw/workspace
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_STATE_DIR}:/var/lib/openclaw
+      - ${BRAINOPS_DIR}/runtime/ssh:/home/node/.ssh:rw
     ports:
       - "127.0.0.1:${OPENCLAW_GATEWAY_PORT}:${OPENCLAW_GATEWAY_PORT}"
     expose:
