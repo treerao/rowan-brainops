@@ -61,6 +61,25 @@ services:
       timeout: 5s
       retries: 5
 
+  restart-agent:
+    build:
+      context: ../services/restart-agent
+    container_name: rowan-restart-agent
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker-compose.yml:/compose/docker-compose.yml:ro
+      - ./.env:/compose/.env:ro
+    environment:
+      COMPOSE_PROJECT_NAME: compose
+    expose:
+      - "9111"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:9111/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: rowan-cloudflared
