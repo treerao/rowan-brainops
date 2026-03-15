@@ -9,6 +9,7 @@ EXTENSION_DIR_DEFAULT="${HOME}/.openclaw/browser/chrome-extension"
 
 PROFILE_ROOT="${1:-${PROFILE_ROOT_DEFAULT}}"
 PROFILE_NAME="${2:-${PROFILE_NAME_DEFAULT}}"
+# optional third arg: CDP port (default 18800)
 EXTENSION_DIR="${OPENCLAW_EXTENSION_DIR:-${EXTENSION_DIR_DEFAULT}}"
 
 CHROME_APP="${CHROME_APP:-/Applications/Google Chrome.app}"
@@ -23,18 +24,33 @@ fi
 
 mkdir -p "${PROFILE_ROOT}"
 
+PORT_DEFAULT="18800"
+PORT="${OPENCLAW_CDP_PORT:-${3:-${PORT_DEFAULT}}}"
+HEADLESS_MODE="${OPENCLAW_CDP_HEADLESS:-}"
+
 OPEN_ARGS=(
+  --remote-debugging-port="${PORT}"
   --user-data-dir="${PROFILE_ROOT}"
   --profile-directory="${PROFILE_NAME}"
   --no-first-run
   --no-default-browser-check
+  --no-set-default-browser
   --new-window
   "about:blank"
 )
 
+# Optional: run headless if requested (useful for long-running CDP extraction)
+if [[ -n "${HEADLESS_MODE}" ]]; then
+  OPEN_ARGS=(
+    --headless=new
+    --disable-gpu
+    "${OPEN_ARGS[@]}"
+  )
+fi
+
 if [[ -d "${EXTENSION_DIR}" ]]; then
   OPEN_ARGS=(
-    --disable-extensions-except="${EXTENSION_DIR}"
+    --enable-extensions
     --load-extension="${EXTENSION_DIR}"
     "${OPEN_ARGS[@]}"
   )
@@ -46,6 +62,7 @@ fi
 
 echo "Launching isolated Chrome profile..."
 echo "  chrome-bin: ${CHROME_BIN}"
+echo "  cdp-port: ${PORT}"
 echo "  user-data-dir: ${PROFILE_ROOT}"
 echo "  profile-directory: ${PROFILE_NAME}"
 

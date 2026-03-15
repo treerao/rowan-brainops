@@ -4,6 +4,7 @@ services:
     container_name: rowan-openclaw
     restart: unless-stopped
     environment:
+      NODE_OPTIONS: "--max-old-space-size=3072"
       TZ: ${TZ}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
@@ -31,10 +32,7 @@ services:
       - ${OPENCLAW_STATE_DIR}:/var/lib/openclaw
       - ${BRAINOPS_DIR}:/home/node/.openclaw/workspace/brainops
       - ${BRAINOPS_DIR}/runtime/ssh:/home/node/.ssh:rw
-    ports:
-      - "127.0.0.1:${OPENCLAW_GATEWAY_PORT}:${OPENCLAW_GATEWAY_PORT}"
-    expose:
-      - "${OPENCLAW_GATEWAY_PORT}"
+    network_mode: host
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:${OPENCLAW_GATEWAY_PORT}/"]
       interval: 30s
@@ -53,6 +51,7 @@ services:
       ROWAN_WEB_INDEX: ${ROWAN_WEB_INDEX}
     volumes:
       - ${WORKSPACE_DIR}:/workspace:ro
+      - ${BRAINOPS_DIR}:/workspace/brainops:ro
     expose:
       - "3333"
     healthcheck:
@@ -75,7 +74,7 @@ services:
     expose:
       - "9111"
     healthcheck:
-      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:9111/healthz"]
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:9111/healthz"]
       interval: 30s
       timeout: 5s
       retries: 3

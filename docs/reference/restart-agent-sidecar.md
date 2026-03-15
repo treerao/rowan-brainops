@@ -34,8 +34,9 @@ Option 2 — sidecar. The risk of full socket access (option 1) is too high for 
 
 - `restart-agent` is a `docker:cli` + `socat` image.
 - `socat` listens on port 9111 and forks `handler.sh` per connection.
-- `handler.sh` accepts only two routes:
-  - `POST /restart` — runs `docker compose up -d --force-recreate openclaw`
+- `handler.sh` accepts only these routes:
+  - `POST /restart` — runs `docker compose up -d --force-recreate openclaw` (v2 preferred; v1 fallback)
+  - `POST /pull` — runs `docker compose pull openclaw` (v2 preferred; v1 fallback)
   - `GET /healthz` — returns `{"ok":true}`
   - Everything else returns 404.
 - The compose file is mounted read-only at `/compose/docker-compose.yml`.
