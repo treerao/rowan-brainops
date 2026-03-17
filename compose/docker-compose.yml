@@ -30,7 +30,7 @@ services:
       - ${WORKSPACE_DIR}:/home/node/.openclaw/workspace
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_STATE_DIR}:/var/lib/openclaw
-      - ${BRAINOPS_DIR}:/home/node/.openclaw/workspace/brainops
+      - ${BRAINOPS_DIR}:/home/node/.openclaw/brainops
       - ${BRAINOPS_DIR}/runtime/ssh:/home/node/.ssh:rw
     network_mode: host
     healthcheck:
