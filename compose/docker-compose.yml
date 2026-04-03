@@ -14,6 +14,8 @@ services:
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
       VT_API_KEY: ${VT_API_KEY}
+      ROWAN_API_URL: ${ROWAN_API_URL}
+      ROWAN_API_KEY: ${ROWAN_API_KEY}
       OPENCLAW_WORKSPACE: /home/node/.openclaw/workspace
     command:
       - sh
