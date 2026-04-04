@@ -6,7 +6,6 @@ services:
     environment:
       NODE_OPTIONS: "--max-old-space-size=3072"
       TZ: ${TZ}
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       BRAVE_API_KEY: ${BRAVE_API_KEY}
       OPENCLAW_WEB_SEARCH_API_KEY: ${OPENCLAW_WEB_SEARCH_API_KEY}
@@ -31,6 +30,7 @@ services:
         exec /usr/local/bin/node openclaw.mjs gateway --allow-unconfigured --bind lan --port "${OPENCLAW_GATEWAY_PORT}"
     volumes:
       - ${WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${ROWAN_APPS_DIR}:/home/node/.openclaw/rowan-apps
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_STATE_DIR}:/var/lib/openclaw
       - ${BRAINOPS_DIR}:/home/node/.openclaw/brainops
