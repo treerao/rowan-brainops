@@ -26,6 +26,10 @@ mkdir -p "${PROFILE_ROOT}"
 
 PORT_DEFAULT="18800"
 PORT="${OPENCLAW_CDP_PORT:-${3:-${PORT_DEFAULT}}}"
+# optional fourth arg: start URL (default about:blank). x-man account
+# launches pass https://x.com/i/bookmarks so the bookmark-sync cron finds
+# an open x.com tab to read auth cookies from.
+START_URL="${OPENCLAW_START_URL:-${4:-about:blank}}"
 HEADLESS_MODE="${OPENCLAW_CDP_HEADLESS:-}"
 
 OPEN_ARGS=(
@@ -36,7 +40,7 @@ OPEN_ARGS=(
   --no-default-browser-check
   --no-set-default-browser
   --new-window
-  "about:blank"
+  "${START_URL}"
 )
 
 # Optional: run headless if requested (useful for long-running CDP extraction)
@@ -65,5 +69,6 @@ echo "  chrome-bin: ${CHROME_BIN}"
 echo "  cdp-port: ${PORT}"
 echo "  user-data-dir: ${PROFILE_ROOT}"
 echo "  profile-directory: ${PROFILE_NAME}"
+echo "  start-url: ${START_URL}"
 
 "${CHROME_BIN}" "${OPEN_ARGS[@]}" >/tmp/rowan-chrome.log 2>&1 &

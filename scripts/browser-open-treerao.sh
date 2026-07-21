@@ -7,5 +7,6 @@ set -euo pipefail
 ROOT="$HOME/.openclaw/browser/treerao/user-data"
 PROFILE_DIR="Default"
 PORT="18801"
+START_URL="https://x.com/i/bookmarks"
 
-exec "$(dirname "$0")/browser-open-profile.sh" "$ROOT" "$PROFILE_DIR" "$PORT"
+exec "$(dirname "$0")/browser-open-profile.sh" "$ROOT" "$PROFILE_DIR" "$PORT" "$START_URL"
