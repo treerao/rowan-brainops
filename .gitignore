@@ -3,6 +3,10 @@
 .DS_Store
 compose/.env
 
+# Env backups — the upgrade runbook's tag-bump step writes .env.bak-<ts>,
+# which the bare `.env` pattern does NOT match. Real secrets; never commit.
+.env.bak-*
+
 tmp/
 
 # OpenClaw SSH keys (local-only)
